@@ -37,7 +37,7 @@ class Agent:
         else:
             raise ValueError(f"Language {cfg['lang']} is not supported yet")
 
-        self.debug = False # TODO check before commit
+        self.debug = False  # TODO check before commit 
         self.icons = {}
         self.treasure_blacklist = {}
         self.heros_whitelist = {}
@@ -449,7 +449,11 @@ class Agent:
                 print(f"click treasure : {rect}, {treasure_loc}")
                 pyautogui.click(tuple_add(rect, treasure_loc))
                 # hero treasure screenshot before confirm
-                if self.debug :
+                if self.
+
+
+
+ :
                     self.screen_record(state)
                 pyautogui.click(tuple_add(rect, self.locs.treasures_collect))
                 del screen
