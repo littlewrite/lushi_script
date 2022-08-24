@@ -59,7 +59,7 @@ class Agent:
         self.stop_at_boss = False
         self.choice_skill_index = 0  # 抉择技能选择第1个
         self.battle_time_wait = 1
-        self.states = ['box', 'mercenaries', 'team_lock', 'travel', 'boss_list', 'team_list', 'map_not_ready',
+        self.states = ['box', 'mercenaries', 'team_lock', 'travel', 'boss_list', 'team_list', 'collect', 'map_not_ready',
                        'goto', 'show', 'teleport', 'start_game', 'member_not_ready', 'not_ready_dots', 'battle_ready',
                        'treasure_list', 'treasure_replace', 'treasure_list2', 'destroy', 'blue_portal', 'boom', 'visitor_list',
                        'final_reward', 'final_reward2', 'final_confirm', 'close', 'ok', 'done', 'member_not_ready2','boss_empty_icon', 'campfire']
@@ -644,7 +644,7 @@ class Agent:
     def state_handler(self, state, tic, text):
         success, loc, rect = self.check_in_screen(text)
         '''
-        self.states = ['box', 'mercenaries', 'team_lock', 'travel', 'boss_list','team_list', 'map_not_ready',
+        self.states = ['box', 'mercenaries', 'team_lock', 'travel', 'boss_list','team_list', 'collect', 'map_not_ready',
                   'goto', 'show', 'teleport', 'start_game', 'member_not_ready', 'not_ready_dots', 'battle_ready',
                   'treasure_list', 'treasure_replace', 'treasure_list2', 'destroy', 'blue_portal', 'boom', 'visitor_list',
                   'final_reward', 'final_reward2', 'final_confirm', 'ok', 'close', 'done', 'member_not_ready2', 'boss_empty_icon', 'campfire']
@@ -850,7 +850,7 @@ class Agent:
                     for x in (x1, x2, x3):
                         self.new_click(tuple_add(rect, (x, y)))
 
-            if state in ['goto', 'show', 'teleport', 'start_game']:
+            if state in ['goto', 'show', 'teleport', 'start_game', 'collect']:
                 logger.info(f'find {state}, try to click')
                 if self.stop_at_boss:
                     # 检查是否进入boss关卡
