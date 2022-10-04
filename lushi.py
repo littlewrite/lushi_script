@@ -668,62 +668,44 @@ class Agent:
             if state == 'boss_list' or 'boss_empty_icon' == state :
                 logger.info('find boss list, try to click')
                 the_boss_id = 0
+                map_page = 0
+                if self.basic.map_page:
+                    map_page = self.basic.map_page
+
+                for i in range(-3, map_page):
+                    if i < 0 :
+                        self.new_click(tuple_add(rect, self.locs.boss_page_left))
+                        time.sleep(0.5)
+                    elif 0 < i :
+                        self.new_click(tuple_add(rect, self.locs.boss_page_right))
+                        time.sleep(1)
+
                 if self.basic.boss_id in BOSS_ID_MAP:
                     the_boss_id = BOSS_ID_MAP[self.basic.boss_id]
-                if the_boss_id > 19:
-                    # boss 8-7,8,9,10
-                    self.new_click(tuple_add(rect, self.locs.boss_page_right))
-                    time.sleep(1)
-                    the_loc = getattr(self.locs, "boss_{}_of_4".format(the_boss_id - 19))
-                    self.new_click(tuple_add(rect, the_loc))
-                    self.new_click(tuple_add(rect, self.locs.start_game))
-                elif the_boss_id > 15:
-                    # boss 7-1,2,3,4
-                    the_loc = getattr(self.locs, "boss_{}_of_4".format(the_boss_id - 15))
-                    self.new_click(tuple_add(rect, the_loc))
-                    self.new_click(tuple_add(rect, self.locs.start_game))
-                elif the_boss_id > 14:
-                    # boss 13
-                    self.new_click(tuple_add(rect, self.locs.boss_page_right))
-                    time.sleep(1)
-                    self.new_click(tuple_add(rect, self.locs.boss_page_right))
+                
+                if 16 < the_boss_id:
                     self.new_click(tuple_add(rect, self.locs.boss_4_13))
-                    self.new_click(tuple_add(rect, self.locs.start_game))
-                elif the_boss_id > 8:
-                    the_id = the_boss_id - 9
-                    x_id = the_id % 3
-                    y_id = the_id // 3
-                    loc = (self.locs.boss[x_id], self.locs.boss[3 + y_id])
-                    self.new_click(tuple_add(rect, self.locs.boss_page_left))
-                    time.sleep(0.5)
-                    self.new_click(tuple_add(rect, self.locs.boss_page_left))
-                    time.sleep(0.5)
-                    self.new_click(tuple_add(rect, self.locs.boss_page_right))
-                    self.new_click(tuple_add(rect, loc))
-                    self.new_click(tuple_add(rect, self.locs.start_game))
-                elif the_boss_id > 5:
-                    id_standard = (the_boss_id - 6) * 2
-                    x_id = id_standard % 3
-                    y_id = id_standard // 3
-                    loc = (self.locs.boss[x_id], self.locs.boss[3 + y_id])
-
-                    self.new_click(tuple_add(rect, self.locs.boss_page_left))
-                    time.sleep(0.5)
-                    self.new_click(tuple_add(rect, self.locs.boss_page_left))
-                    time.sleep(0.5)
-                    self.new_click(tuple_add(rect, self.locs.boss_page_right))
-                    self.new_click(tuple_add(rect, loc))
-                    self.new_click(tuple_add(rect, self.locs.start_game))
+                elif 14 < the_boss_id:
+                elif 11 < the_boss_id:
+                elif 8 == the_boss_id:
+                    self.new_click(tuple_add(rect, self.locs.boss_1_of_4))
+                elif 9 == the_boss_id:
+                    self.new_click(tuple_add(rect, self.locs.boss_2_of_4))
+                elif 10 == the_boss_id:
+                    self.new_click(tuple_add(rect, self.locs.boss_3_of_4))
+                elif 11 == the_boss_id:
+                    self.new_click(tuple_add(rect, self.locs.boss_4_of_4))
+                elif 6 == the_boss_id:
+                    self.new_click(tuple_add(rect, self.locs.boss_3_of_4))
+                elif 7 == the_boss_id:
+                    self.new_click(tuple_add(rect, self.locs.boss_4_of_4))
                 else:
                     x_id = the_boss_id % 3
                     y_id = the_boss_id // 3
                     loc = (self.locs.boss[x_id], self.locs.boss[3 + y_id])
-                    self.new_click(tuple_add(rect, self.locs.boss_page_left))
-                    time.sleep(0.5)
-                    self.new_click(tuple_add(rect, self.locs.boss_page_left))
-                    time.sleep(0.5)
                     self.new_click(tuple_add(rect, loc))
-                    self.new_click(tuple_add(rect, self.locs.start_game))
+
+                self.new_click(tuple_add(rect, self.locs.start_game))
 
             if state == 'team_list':
                 logger.info(f'find {state}, try to click')
@@ -965,8 +947,7 @@ class Agent:
 
             if state in ['final_reward', 'final_reward2']:
                 logger.info(f'find {state}, try to click')
-                reward_count = self.basic.reward_count_dropdown
-                reward_count = int(reward_count) if reward_count.isdigit() else reward_count
+                reward_count = 'all'
 
                 reward_locs = eval(self.locs.rewards[reward_count])  # click all of 3， 4， 5 rewards location
                 for loc in reward_locs:

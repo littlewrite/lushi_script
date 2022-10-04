@@ -63,11 +63,7 @@ class Ui(QMainWindow):
         self.boss_id = self.findChild(QComboBox, 'boss_level')
         self.team_id = self.findChild(QSpinBox, 'team_id')
         # self.reward_count = self.findChild(QSpinBox, 'boss_reward')
-        self.reward_count_dropdown = self.findChild(QComboBox, 'reward')
-        self.reward_count_dropdown.addItem('3')
-        self.reward_count_dropdown.addItem('4')
-        self.reward_count_dropdown.addItem('5')
-        self.reward_count_dropdown.addItem('all')  # 都点一遍
+        # self.reward_count_dropdown.addItem('all')  # 都点一遍
         self.bn_path = self.findChild(QLineEdit, 'bn_path')
         self.hs_path = self.findChild(QLineEdit, 'hs_path')
         self.bn_path_find = self.findChild(QToolButton, 'load_path')
@@ -367,14 +363,14 @@ class Ui(QMainWindow):
                 self.config = yaml.safe_load(f)
         except:
             return QMessageBox.critical(self, 'Error!', "Load Path Fail", QMessageBox.Ok, QMessageBox.Ok)
-
+                
         for k, v in self.config.items():
             if k == 'boss_id':
                 self.boss_id.setCurrentText(f"{v}")
             if k == 'team_id':
                 self.team_id.setValue(v + 1)
-            if k == 'reward_count_dropdown':
-                self.reward_count_dropdown.setCurrentText(f"{v}")
+            if k == 'map_page':
+                self.map_page.setValue(v + 1)
             if k == 'bn_path':
                 self.bn_path.setText(v)
             if k == 'hs_path':
@@ -446,7 +442,7 @@ class Ui(QMainWindow):
         self.config['battle_stratege'] = self.battle_stratege_dropdown.currentText()
         self.config['boss_battle_stratege'] = self.boss_battle_stratege_dropdown.currentText()
         self.config['lettuce_role_limit'] = self.lettuce_role_limit_dropdown.currentText()
-        self.config['reward_count_dropdown'] = self.reward_count_dropdown.currentText()
+        self.config['map_page'] = self.map_page.value() - 1
         self.config['delay'] = 0.5
         self.config['confidence'] = 0.8
         self.config['longest_waiting'] = 80
@@ -497,9 +493,9 @@ class Ui(QMainWindow):
             self.save_config()
             cfm_text = f'''
                 Current Setting:\n
-                Boss ID: {self.config['boss_id']}\n
+                Boss Map Page: {self.config['map_page']}\n
+                Boss Map Position: {self.config['boss_id']}\n
                 Team ID: {self.config['team_id'] + 1}\n
-                Boss Reward: {self.config['reward_count_dropdown']}\n
                 BattleNet Path: {self.config['bn_path']}\n
                 HearthStone Path: {self.config['hs_path']}\n
                 Auto Restart: {self.config['auto_restart']}\n
@@ -563,30 +559,28 @@ class Ui(QMainWindow):
         self.boss_level.setItemText(3, _translate("MainWindow", "4"))
         self.boss_level.setItemText(4, _translate("MainWindow", "5"))
         self.boss_level.setItemText(5, _translate("MainWindow", "6"))
-        self.boss_level.setItemText(6, _translate("MainWindow", "1-7"))
-        self.boss_level.setItemText(7, _translate("MainWindow", "1-8"))
-        self.boss_level.setItemText(8, _translate("MainWindow", "1-9"))
-        self.boss_level.setItemText(9, _translate("MainWindow", "7"))
-        self.boss_level.setItemText(10, _translate("MainWindow", "8"))
-        self.boss_level.setItemText(11, _translate("MainWindow", "9"))
-        self.boss_level.setItemText(12, _translate("MainWindow", "10"))
-        self.boss_level.setItemText(13, _translate("MainWindow", "11"))
-        self.boss_level.setItemText(14, _translate("MainWindow", "12"))
-        self.boss_level.setItemText(15, _translate("MainWindow", "13"))
-        self.boss_level.setItemText(16, _translate("MainWindow", "7-1"))
-        self.boss_level.setItemText(17, _translate("MainWindow", "7-2"))
-        self.boss_level.setItemText(18, _translate("MainWindow", "7-3"))
-        self.boss_level.setItemText(19, _translate("MainWindow", "7-4"))
-        self.boss_level.setItemText(20, _translate("MainWindow", "8-7"))
-        self.boss_level.setItemText(21, _translate("MainWindow", "8-8"))
-        self.boss_level.setItemText(22, _translate("MainWindow", "8-9"))
-        self.boss_level.setItemText(23, _translate("MainWindow", "8-10"))
+
+        self.boss_level.setItemText(6, _translate("MainWindow", "4/5"))
+        self.boss_level.setItemText(7, _translate("MainWindow", "5/5"))
+
+        self.boss_level.setItemText(8, _translate("MainWindow", "1/4"))
+        self.boss_level.setItemText(9, _translate("MainWindow", "2/4"))
+        self.boss_level.setItemText(10, _translate("MainWindow", "3/4"))
+        self.boss_level.setItemText(11, _translate("MainWindow", "4/4"))
+
+        self.boss_level.setItemText(12, _translate("MainWindow", "1/3"))
+        self.boss_level.setItemText(13, _translate("MainWindow", "2/3"))
+        self.boss_level.setItemText(14, _translate("MainWindow", "3/3"))
+
+        self.boss_level.setItemText(15, _translate("MainWindow", "1/2"))
+        self.boss_level.setItemText(16, _translate("MainWindow", "2/2"))
+
+        self.boss_level.setItemText(17, _translate("MainWindow", "1/1"))
         self.label_4.setText(_translate("MainWindow", "战网路径"))
         self.load_path.setText(_translate("MainWindow", "..."))
-        self.label_2.setText(_translate("MainWindow", "队伍选择序号"))
+        self.label_3.setText(_translate("MainWindow", "地图页码"))
         self.label_5.setText(_translate("MainWindow", "炉石路径"))
         self.load_path2.setText(_translate("MainWindow", "..."))
-        self.label_3.setText(_translate("MainWindow", "关卡奖励数量"))
         self.auto_restart.setText(_translate("MainWindow", "脚本宕机自动重启"))
         self.early_stop.setText(_translate("MainWindow", "拿完惊喜提前结束"))
         self.auto_tasks.setText(_translate("MainWindow", "自动提交任务"))
