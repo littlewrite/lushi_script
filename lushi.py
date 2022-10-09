@@ -672,21 +672,26 @@ class Agent:
                 if self.basic.map_page:
                     map_page = self.basic.map_page
 
-                for i in range(-3, map_page):
+                if self.basic.boss_id in BOSS_ID_MAP:
+                    the_boss_id = BOSS_ID_MAP[self.basic.boss_id]
+                else:
+                    the_boss_id = int(self.basic.boss_id)
+
+                for i in range(-3, (map_page+1)):
+                    logger.info(f'find {state}, page{map_page} boss_id{self.basic.boss_id}, i{i}')
                     if i < 0 :
                         self.new_click(tuple_add(rect, self.locs.boss_page_left))
                         time.sleep(0.5)
                     elif 0 < i :
                         self.new_click(tuple_add(rect, self.locs.boss_page_right))
-                        time.sleep(1)
-
-                if self.basic.boss_id in BOSS_ID_MAP:
-                    the_boss_id = BOSS_ID_MAP[self.basic.boss_id]
-                
+                        time.sleep(1) 
+                logger.info(f'find {state}, page{map_page} boss_id{the_boss_id}')
                 if 16 < the_boss_id:
                     self.new_click(tuple_add(rect, self.locs.boss_4_13))
                 elif 14 < the_boss_id:
+                    logger.info(f'find {state}, page{map_page} boss_id{the_boss_id}')
                 elif 11 < the_boss_id:
+                    logger.info(f'find {state}, page{map_page} boss_id{the_boss_id}')
                 elif 8 == the_boss_id:
                     self.new_click(tuple_add(rect, self.locs.boss_1_of_4))
                 elif 9 == the_boss_id:
