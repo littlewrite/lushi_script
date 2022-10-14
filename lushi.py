@@ -851,8 +851,8 @@ class Agent:
                         if 1 > len(circles):
                             print(f"[{state}]  stop at boss")
                             time.sleep(30)
-                else:
-                    self.new_click(tuple_add(rect, self.locs.start_game))
+                
+                self.new_click(tuple_add(rect, self.locs.start_game))
 
             if state in ['member_not_ready', 'member_not_ready2']:
                 logger.info(f'find {state}, try to click')
